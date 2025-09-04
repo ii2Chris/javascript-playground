@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PulseBoard — Patient Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Chart.js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="container">
+        <div class="brand">
+          <!-- text logo is fine for a portfolio demo -->
+          <img class="logo" src="assets/pulseboard-logo.svg" alt="PulseBoard" />
+        </div>
+
+        <nav class="topnav" aria-label="Primary">
+          <a class="item" href="#">
+            <svg
+              class="ico"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M3 10.5 12 3l9 7.5v8a2 2 0 0 1-2 2h-4.5v-6h-5v6H5a2 2 0 0 1-2-2z"
+              />
+            </svg>
+            <span>Overview</span>
+          </a>
+          <a class="item active" href="#">
+            <svg
+              class="ico"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M16 11a4 4 0 1 0-8 0" />
+              <circle cx="12" cy="7" r="2.5" />
+              <path d="M3 20a7 7 0 0 1 18 0" />
+            </svg>
+            <span>Patients</span>
+          </a>
+          <a class="item" href="#">
+            <svg
+              class="ico"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="4" y="5" width="16" height="16" rx="2" />
+              <path d="M8 3v4M16 3v4M4 11h16" />
+            </svg>
+            <span>Schedule</span>
+          </a>
+          <a class="item" href="#">
+            <svg
+              class="ico"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+              />
+            </svg>
+            <span>Message</span>
+          </a>
+          <a class="item" href="#">
+            <svg
+              class="ico"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="M3 9h18M8 13h3" />
+            </svg>
+            <span>Transactions</span>
+          </a>
+        </nav>
+
+        <div class="doc-profile">
+          <div class="doc-avatar">
+            <img
+              src="assets/doctor-placeholder.jpg"
+              alt="Attending Physician"
+            />
+          </div>
+          <div class="doc-meta">
+            <div class="doc-name">Dr. Avery Morgan</div>
+            <div class="doc-role">General Practitioner</div>
+          </div>
+          <div class="actions">
+            <button class="icon-btn" aria-label="Settings">
+              <img
+                src="assets/settings_FILL0_wght300_GRAD0_opsz24.svg"
+                alt="Settings"
+              />
+            </button>
+            <button class="icon-btn" aria-label="More">
+              <img
+                src="assets/more_vert_FILL0_wght300_GRAD0_opsz24.svg"
+                alt="More"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3-columns -->
+    <main class="page-grid">
+      <!-- Left -->
+      <aside class="col col-left">
+        <section class="card patients-panel">
+          <div class="card-hd">
+            <h2>Patients</h2>
+            <button class="icon-btn" aria-label="Search">
+              <span class="icon-search"></span>
+            </button>
+          </div>
+          <div class="card-bd">
+            <ul id="patientsList" class="patients-list" role="list"></ul>
+          </div>
+        </section>
+      </aside>
+
+      <!-- Middle -->
+      <section class="col col-middle">
+        <section class="card diagnosis-card">
+          <div class="card-hd"><h2>Diagnosis History</h2></div>
+          <div class="card-bd">
+            <div class="bp-header">
+              <div class="bp-title">Blood Pressure</div>
+              <button class="chip" type="button">Last 6 months ▾</button>
+            </div>
+
+            <div class="bp-body">
+              <div class="bp-chart">
+                <canvas
+                  id="bpChart"
+                  height="140"
+                  aria-label="Blood pressure chart"
+                ></canvas>
+              </div>
+              <div class="bp-legend">
+                <div class="legend-row">
+                  <span class="dot dot-sys"></span
+                  ><span class="legend-label">Systolic</span>
+                </div>
+                <div class="legend-val sys"><span id="sysVal">—</span></div>
+                <div class="legend-note">Higher than Average</div>
+
+                <div class="legend-divider"></div>
+
+                <div class="legend-row">
+                  <span class="dot dot-dia"></span
+                  ><span class="legend-label">Diastolic</span>
+                </div>
+                <div class="legend-val dia"><span id="diaVal">—</span></div>
+                <div class="legend-note">Lower than Average</div>
+              </div>
+            </div>
+
+            <div class="kpi-grid">
+              <article class="kpi card">
+                <div class="kpi-icon ring"></div>
+                <div>
+                  <div class="kpi-title">Respiratory Rate</div>
+                  <div class="kpi-val">
+                    <span id="kpiRR">—</span
+                    ><span class="unit">breaths/min</span>
+                  </div>
+                </div>
+              </article>
+              <article class="kpi card">
+                <div class="kpi-icon temp"></div>
+                <div>
+                  <div class="kpi-title">Temperature</div>
+                  <div class="kpi-val">
+                    <span id="kpiTemp">—</span><span class="unit">°F</span>
+                  </div>
+                </div>
+              </article>
+              <article class="kpi card">
+                <div class="kpi-icon heart"></div>
+                <div>
+                  <div class="kpi-title">Heart Rate</div>
+                  <div class="kpi-val">
+                    <span id="kpiHR">—</span><span class="unit">bpm</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="card diag-list">
+          <div class="card-hd"><h2>Diagnostic List</h2></div>
+          <div class="card-bd">
+            <table>
+              <thead>
+                <tr>
+                  <th>Condition</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="diagTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- Right -->
+      <aside class="col col-right">
+        <section class="card profile-panel">
+          <div class="profile-hero">
+            <div id="profilePic" class="avatar xl"></div>
+            <h3 id="pName">—</h3>
+          </div>
+          <ul class="profile-kv" role="list">
+            <li>
+              <span class="kv-icon cal"></span
+              ><span class="k">Date Of Birth</span
+              ><span class="v" id="pDOB">—</span>
+            </li>
+            <li>
+              <span class="kv-icon user"></span><span class="k">Gender</span
+              ><span class="v" id="pGender">—</span>
+            </li>
+            <li>
+              <span class="kv-icon phone"></span
+              ><span class="k">Contact Info.</span
+              ><span class="v" id="pPhone">—</span>
+            </li>
+            <li>
+              <span class="kv-icon phone"></span
+              ><span class="k">Emergency Contact</span
+              ><span class="v" id="pEmergency">—</span>
+            </li>
+            <li>
+              <span class="kv-icon shield"></span
+              ><span class="k">Insurance Provider</span
+              ><span class="v" id="pInsurance">—</span>
+            </li>
+          </ul>
+          <button class="btn-ghost" type="button" id="showAllBtn">
+            Show All Information
+          </button>
+        </section>
+
+        <section class="card labs">
+          <div class="card-hd"><h2>Lab Results</h2></div>
+          <div class="card-bd">
+            <table>
+              <thead>
+                <tr>
+                  <th>Lab</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="labsTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <script>
+      // utils
+      const qs = (s, r = document) => r.querySelector(s);
+      const fmtDate = (s) => {
+        if (!s) return "—";
+        const d = new Date(s);
+        return isNaN(d)
+          ? "—"
+          : d.toLocaleDateString(undefined, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            });
+      };
+      const cap = (s) => (s || "").replace(/\b\w/g, (m) => m.toUpperCase());
+
+      // renderers
+      const renderPatients = (list) => {
+        const ul = qs("#patientsList");
+        ul.innerHTML = list
+          .map(
+            (p) => `
+          <li class="patient-item${(p.name || "").toLowerCase() === "jessica taylor" ? " active" : ""}">
+            <div class="avatar sm" style="${p.profile_picture ? `background-image:url('${p.profile_picture}');background-size:cover;background-position:center;` : ""}"></div>
+            <div class="patient-meta">
+              <div class="name">${p.name ?? "—"}</div>
+              <div class="sub">${cap(p.gender) || "—"}, ${p.age ?? "—"}</div>
+            </div>
+            <button class="more" aria-label="More"></button>
+          </li>
+        `,
+          )
+          .join("");
+      };
+
+      const renderProfile = (p) => {
+        qs("#pName").textContent = p.name ?? "—";
+        qs("#pGender").textContent = cap(p.gender) || "—";
+        qs("#pPhone").textContent = p.phone ?? "—";
+        qs("#pEmergency").textContent = p.emergency_contact ?? "—";
+        qs("#pInsurance").textContent = p.insurance_type ?? "—";
+        qs("#pDOB").textContent = fmtDate(p.date_of_birth);
+        if (p.profile_picture)
+          qs("#profilePic").style.backgroundImage =
+            `url("${p.profile_picture}")`;
+      };
+
+      const renderDiagnostics = (rows) => {
+        qs("#diagTable").innerHTML = (rows || [])
+          .map(
+            (d) => `
+          <tr><td>${d.name || "—"}</td><td>${d.description || "—"}</td><td><span class="pill">${d.status || "—"}</span></td></tr>
+        `,
+          )
+          .join("");
+      };
+
+      const renderLabs = (rows) => {
+        qs("#labsTable").innerHTML = (rows || [])
+          .map(
+            (l, i) => `
+          <tr>
+            <td>${l.test || l.name || "—"}</td>
+            <td><a class="btn-link" href="${l.pdf || "#"}" ${l.pdf ? "download" : ""}>Download PDF</a></td>
+          </tr>
+        `,
+          )
+          .join("");
+      };
+
+      const renderKpis = (hist) => {
+        const lastNum = (k) => {
+          for (let i = hist.length - 1; i >= 0; i--) {
+            const v = hist[i]?.[k];
+            if (Number.isFinite(v)) return v;
+          }
+          return "—";
+        };
+        qs("#kpiRR").textContent = lastNum("respiratory_rate");
+        qs("#kpiTemp").textContent = lastNum("temperature");
+        qs("#kpiHR").textContent = lastNum("heart_rate");
+      };
+
+      const renderChart = (hist) => {
+        const pts = (hist || [])
+          .map((r) => {
+            const label = [r.month, r.year].filter(Boolean).join(" ");
+            const sys = Number.isFinite(r.systolic)
+              ? r.systolic
+              : Number(r.blood_pressure?.systolic);
+            const dia = Number.isFinite(r.diastolic)
+              ? r.diastolic
+              : Number(r.blood_pressure?.diastolic);
+            return { label, sys, dia };
+          })
+          .filter((p) => Number.isFinite(p.sys) && Number.isFinite(p.dia));
+
+        const last = pts.slice(-6);
+        const labels = last.map((p) => p.label || "");
+        const systolic = last.map((p) => p.sys);
+        const diastolic = last.map((p) => p.dia);
+
+        qs("#sysVal").textContent = systolic.at(-1) ?? "—";
+        qs("#diaVal").textContent = diastolic.at(-1) ?? "—";
+
+        const el = qs("#bpChart");
+        if (!el) return;
+        new Chart(el.getContext("2d"), {
+          type: "line",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "Systolic",
+                data: systolic,
+                borderColor: "#C26EB4",
+                pointBackgroundColor: "#C26EB4",
+                pointRadius: 3,
+                tension: 0.35,
+              },
+              {
+                label: "Diastolic",
+                data: diastolic,
+                borderColor: "#8C6FE6",
+                pointBackgroundColor: "#8C6FE6",
+                pointRadius: 3,
+                tension: 0.35,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { grid: { color: "#EDEDED" }, ticks: { color: "#707070" } },
+              x: { grid: { display: false }, ticks: { color: "#707070" } },
+            },
+          },
+        });
+      };
+
+      // init (local mock, no credentials)
+      document.addEventListener("DOMContentLoaded", async () => {
+        let data = [];
+        try {
+          const res = await fetch("./data/patients.json");
+          data = await res.json();
+        } catch (e) {
+          console.error("Mock data load error", e);
+          return;
+        }
+
+        renderPatients(data);
+
+        const jess = data.find(
+          (p) => (p.name || "").toLowerCase() === "jessica taylor",
+        );
+        if (!jess) return;
+
+        renderProfile(jess);
+        renderDiagnostics(jess.diagnostic_list || []);
+        renderLabs(jess.lab_results || []);
+        renderKpis(jess.diagnosis_history || []);
+        renderChart(jess.diagnosis_history || []);
+      });
+    </script>
+  </body>
+</html>

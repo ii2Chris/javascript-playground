@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Jessica Taylor",
+    "gender": "female",
+    "age": 28,
+    "profile_picture": "https://i.pravatar.cc/160?img=47",
+    "date_of_birth": "1996-08-23",
+    "phone": "(415) 555-1234",
+    "emergency_contact": "(415) 555-5678",
+    "insurance_type": "Sunrise Health Assurance",
+    "diagnosis_history": [
+      {
+        "month": "January",
+        "year": 2024,
+        "systolic": 131,
+        "diastolic": 84,
+        "respiratory_rate": 19,
+        "temperature": 98.4,
+        "heart_rate": 74
+      },
+      {
+        "month": "February",
+        "year": 2024,
+        "systolic": 128,
+        "diastolic": 82,
+        "respiratory_rate": 18,
+        "temperature": 98.3,
+        "heart_rate": 73
+      },
+      {
+        "month": "March",
+        "year": 2024,
+        "systolic": 135,
+        "diastolic": 86,
+        "respiratory_rate": 19,
+        "temperature": 98.6,
+        "heart_rate": 78
+      },
+      {
+        "month": "April",
+        "year": 2024,
+        "systolic": 129,
+        "diastolic": 81,
+        "respiratory_rate": 18,
+        "temperature": 98.5,
+        "heart_rate": 76
+      },
+      {
+        "month": "May",
+        "year": 2024,
+        "systolic": 132,
+        "diastolic": 84,
+        "respiratory_rate": 19,
+        "temperature": 98.7,
+        "heart_rate": 77
+      },
+      {
+        "month": "June",
+        "year": 2024,
+        "systolic": 138,
+        "diastolic": 88,
+        "respiratory_rate": 20,
+        "temperature": 98.9,
+        "heart_rate": 80
+      },
+      {
+        "month": "July",
+        "year": 2024,
+        "systolic": 134,
+        "diastolic": 85,
+        "respiratory_rate": 19,
+        "temperature": 98.6,
+        "heart_rate": 76
+      },
+      {
+        "month": "August",
+        "year": 2024,
+        "systolic": 130,
+        "diastolic": 83,
+        "respiratory_rate": 18,
+        "temperature": 98.4,
+        "heart_rate": 74
+      }
+    ],
+    "diagnostic_list": [
+      {
+        "name": "Hypertension",
+        "description": "Chronic high blood pressure",
+        "status": "Under Observation"
+      },
+      {
+        "name": "Type 2 Diabetes",
+        "description": "Insulin resistance and elevated blood sugar",
+        "status": "Cured"
+      },
+      {
+        "name": "Asthma",
+        "description": "Recurrent episodes of bronchial constriction",
+        "status": "Inactive"
+      }
+    ],
+    "lab_results": [
+      {
+        "name": "Complete Blood Count (CBC)",
+        "date": "2024-06-02",
+        "pdf": "assets/sample-lab.pdf"
+      },
+      {
+        "name": "Lipid Panel",
+        "date": "2024-07-15",
+        "pdf": "assets/sample-lab.pdf"
+      },
+      {
+        "name": "Metabolic Panel",
+        "date": "2024-08-04",
+        "pdf": "assets/sample-lab.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Samuel Green",
+    "gender": "male",
+    "age": 54,
+    "profile_picture": "https://i.pravatar.cc/160?img=12"
+  },
+  {
+    "name": "Aaliyah Khan",
+    "gender": "female",
+    "age": 39,
+    "profile_picture": "https://i.pravatar.cc/160?img=32"
+  },
+  {
+    "name": "Marcus Lee",
+    "gender": "male",
+    "age": 46,
+    "profile_picture": "https://i.pravatar.cc/160?img=23"
+  }
+]
